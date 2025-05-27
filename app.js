@@ -42,25 +42,7 @@ const container = document.querySelector(".container");
 
 let isLoggedIn = false;
 
-function renderLoginPage(){
-    
-    
-    
-        container.innerHTML = `<div class="login_container">
-                
-                <div class="inputs_div">
-                
-                <input type="email" name="email" placeholder="Email" id="email">
-                
-                <input type="password" placeholder="Password" id="password">
-                </div>
-                <a href="#" class="forgot_pass">Forgot Password<a>
-                <button class="login_btn" onclick="handleLogin()">Login</button>
-                <p class="sign_up">Don't have an account? <span><a href="#">Sign Up</a></span></p>
-            </div>`
-            
-            
-}
+
 
 function renderAppliedJobsPage(){
 
@@ -92,15 +74,14 @@ function renderAppliedJobsPage(){
         
 }
 
-renderLoginPage();
 
 function handleLogin() {
     if((document.getElementById("email").value && document.getElementById("password").value) === ""){
         alert("Please fill in the details")
         return
     } else {
-        renderHomePage();
-        getJobs();
+        window.location.href = "index.html";
+        
     }
     };
 
@@ -135,7 +116,8 @@ function renderHomePage(){
 }
 
 
-
+renderHomePage();
+getJobs();
 
 
 

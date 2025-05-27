@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-.container, .applied-jobs-container{
+.container, .applied-jobs-container, .login-page-container{
     width: 100%;
     min-height: 100vh;
     background: #121212;
@@ -20,7 +20,7 @@
 }
 .container nav {
     position: relatve;
-    width: 98%;
+    width: 100%;
     height: 70px;
     display: flex;
     justify-content: space-around;
