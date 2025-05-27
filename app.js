@@ -1,3 +1,48 @@
+// Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
+ 
+// Add a second document with a generated ID.
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
+
+
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyDeplACP_2AT1kPk8d2PG-pqbhdwk7kJrI",
+    authDomain: "job-tracker-bd25a.firebaseapp.com",
+    projectId: "job-tracker-bd25a",
+    storageBucket: "job-tracker-bd25a.firebasestorage.app",
+    messagingSenderId: "1021142125689",
+    appId: "1:1021142125689:web:6c725b83dd2830397a58a8",
+    measurementId: "G-SHJR6ZWZBG"
+  };
+  // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+
+    const db = getFirestore(app);
+
+
+// try {
+//   const docRef = await addDoc(collection(db, "users"), {
+//     first: "Ada",
+//     last: "Lovelace",
+//     born: 1815
+//   });
+//   console.log("Document written with ID: ", docRef.id);
+// } catch (e) {
+//   console.error("Error adding document: ", e);
+// }
+
+// const querySnapshot = await getDocs(collection(db, "users"));
+// querySnapshot.forEach((doc) => {
+//   console.log(`${doc.id} => ${doc.data()}`);
+// });
+
+
 const apiKey = "f8cace435f9bd1cd80392a51c37c200dbc0d55381f3cabae225df51a8ed4c18a"
 
 
@@ -40,7 +85,7 @@ try{
 
 const container = document.querySelector(".container");
 
-let isLoggedIn = false;
+
 
 
 
@@ -73,17 +118,20 @@ function renderAppliedJobsPage(){
         </div>`
         
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const loginBtn = document.querySelector(".login_btn");
+  loginBtn.addEventListener("click", function handleLogin() {
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-
-function handleLogin() {
-    if((document.getElementById("email").value && document.getElementById("password").value) === ""){
-        alert("Please fill in the details")
-        return
+    if (email === "" || password === "") {
+        alert("Please fill in the details");
+        return;
     } else {
         window.location.href = "index.html";
-        
-    }
-    };
+    }   
+} ) 
+}) 
 
 function renderHomePage(){
     container.innerHTML = 
@@ -111,23 +159,7 @@ function renderHomePage(){
             <div></div>
         </div>
         <ul class="job-list"></ul>
-        </div>`
-        
+        </div>`       
 }
-
-
 renderHomePage();
 getJobs();
-
-
-
-
-
-
-
-
-
-
-
-
-
