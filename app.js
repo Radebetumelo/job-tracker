@@ -1,6 +1,6 @@
 // Firebase Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+import { getFirestore, doc, getDocs, collection, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
 // Firebase Config
 const firebaseConfig = {
@@ -76,7 +76,9 @@ async function getJobs() {
       li.querySelector(".save-btn").addEventListener("click", () => {
         
         saveJobToFirestore(selectedJob);
+        fetchAppliedJobs()
         console.log("Saved job:", selectedJob);
+
       });
 
       document.querySelector('.job-list').appendChild(li);
@@ -85,16 +87,17 @@ async function getJobs() {
         const date = new Date(selectedJob.published_at);
         const options = { year: "numeric", month: "short", day: "numeric" };
         const formattedDate = date.toLocaleDateString("en-US", options);
-        renderAppliedJobsPage()
+        jobDetail()
         const div = document.createElement("div");
         div.classList = "details"
-        div.innerHTML = `<p>Comapny:  ${selectedJob.hiring_organization_name}</p>
+        div.innerHTML = `<div><button style="background: none"><i class="bx bx-arrow-left"></i></button></div>
+                          <p>Comapny:  ${selectedJob.hiring_organization_name}</p>
                           <p>Job Title:  ${selectedJob.title}</p>
                           <p>City:  ${ selectedJob.city}</p>
                           <p>Employment Type: ${selectedJob.employment_type}</p>
                           <p>Workplace Type:   ${selectedJob.workplace_type}</p>
                           <p>Experience Required:  ${selectedJob.experience_requirements_months ? selectedJob.experience_requirements_months : "Not Specified"}</p>
-                          <p>Industry:  ${selectedJob.industry ? industry : "Not Specified"} </p>
+                          <p>Industry:  ${selectedJob.industry ? selectedJob.industry : "Not Specified"} </p>
                           <p>Date Published: ${formattedDate}</p>
                           <p>Key Responsibilites: ${selectedJob.responsibilities}</p>
                           <p>SKills Requirements: ${selectedJob.skills_requirements}</p>
@@ -138,6 +141,26 @@ async function saveJobToFirestore(job) {
   }
 }
 
+
+
+//Get Documents form Firestore
+const appliedJobsRef = collection(db, "users", userId, "appliedJobs");
+
+async function fetchAppliedJobs() {
+  const snapshot = await getDocs(appliedJobsRef);
+  snapshot.forEach((docSnap) => {
+    const job = docSnap.data();
+    const jobId = docSnap.id;
+    console.log(job)
+    renderJob(job, jobId);
+  });
+}
+
+function renderJob() {
+
+}
+
+
 // Page container
 const container = document.querySelector(".container");
 
@@ -148,7 +171,7 @@ function renderHomePage() {
       <nav>
         <div class="logo"><h2>J<span>T</span></h2></div>
         <div class="links">
-          <a href="#">Home</a>
+          <a href="index.html">Home</a>
           <a href="#">Logout</a>
           <a href="applied-jobs.html">Applied Jobs</a>
         </div>
@@ -171,7 +194,7 @@ function renderHomePage() {
 }
 
 // Render Applied Jobs Page (optional usage)
-function renderAppliedJobsPage() {
+function jobDetail() {
   container.innerHTML = `
     <div class="home_page">
       <nav>
@@ -179,7 +202,7 @@ function renderAppliedJobsPage() {
         <div class="links">
           <a href="#">Home</a>
           <a href="#">Logout</a>
-          <a href="#">Applied Jobs</a>
+          <a href="applied-jobs.html">Applied Jobs</a>
         </div>
         <form>
           <input type="text" class="search_input" placeholder="Search Job">
