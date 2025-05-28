@@ -61,8 +61,9 @@ async function getJobs() {
       const options = { year: "numeric", month: "short", day: "numeric" };
       const formattedDate = date.toLocaleDateString("en-US", options);
 
+      
       li.innerHTML = `
-        <div>${job.hiring_organization_name}</div>}</div>
+        <div>${job.hiring_organization_name.split(" ").slice(0, 2).join(" ")}</div>
         <div>${job.title.split(" ").slice(0, 2).join(" ")}</div>
         <div>${job.city}</div>
         <div>${formattedDate}</div>
@@ -70,13 +71,40 @@ async function getJobs() {
         <div><button class="save-btn" data-index="${index}">Save job</button></div>
       `;
 
+      const selectedJob = jobList[index];
+
       li.querySelector(".save-btn").addEventListener("click", () => {
-        const selectedJob = jobList[index];
+        
         saveJobToFirestore(selectedJob);
         console.log("Saved job:", selectedJob);
       });
 
       document.querySelector('.job-list').appendChild(li);
+
+      li.addEventListener("click", () => {
+        const date = new Date(selectedJob.published_at);
+        const options = { year: "numeric", month: "short", day: "numeric" };
+        const formattedDate = date.toLocaleDateString("en-US", options);
+        renderAppliedJobsPage()
+        const div = document.createElement("div");
+        div.classList = "details"
+        div.innerHTML = `<p>Comapny:  ${selectedJob.hiring_organization_name}</p>
+                          <p>Job Title:  ${selectedJob.title}</p>
+                          <p>City:  ${ selectedJob.city}</p>
+                          <p>Employment Type: ${selectedJob.employment_type}</p>
+                          <p>Workplace Type:   ${selectedJob.workplace_type}</p>
+                          <p>Experience Required:  ${selectedJob.experience_requirements_months ? selectedJob.experience_requirements_months : "Not Specified"}</p>
+                          <p>Industry:  ${selectedJob.industry ? industry : "Not Specified"} </p>
+                          <p>Date Published: ${formattedDate}</p>
+                          <p>Key Responsibilites: ${selectedJob.responsibilities}</p>
+                          <p>SKills Requirements: ${selectedJob.skills_requirements}</p>
+                          <p>Job Description: ${selectedJob.description}</p>
+        `;
+        const jobDetails = document.querySelector(".job-details");
+        
+        console.log(selectedJob)
+        jobDetails.appendChild(div);
+      })
     });
 
   } catch (error) {
@@ -158,12 +186,8 @@ function renderAppliedJobsPage() {
           <button><i class="bx bx-search"></i></button>
         </form>
       </nav>
-      <div class="headers">
-        <div>Company Name</div>
-        <div>Work Title</div>
-        <div>City</div>
-        <div>Date</div>
-        <div>Job Type</div>
+      <div class="job-details">
+          
       </div>
     </div>
   `;

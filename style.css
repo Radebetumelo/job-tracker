@@ -250,6 +250,13 @@ ul.job-list li:hover {
 
 /* APPLIED JOBS PAGE  */
 
+.details {
+    font-size: 1.2rem;
+    color: #E0E0E0;
+    margin-top: 30px;
+    display: grid;
+    gap: 20px;
+}
 
 
 
