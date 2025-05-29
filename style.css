@@ -128,15 +128,10 @@ ul.job-list li {
 ul.job-list li div{
     width: 20%;
     height: 30px;
-
+    
 }
 
-ul.job-list li div:last-child {
-    width: 20%;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-}
+
 
 ul.job-list li button {
     padding: 0.4rem;
