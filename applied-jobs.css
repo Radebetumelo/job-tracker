@@ -146,6 +146,24 @@ ul.applied-jobs-list li button {
     border-radius: 5px;
 }
 
+#status {
+  background: none;
+  outline: none;
+  height: 30px;
+  color: white;
+  width: 100%;
+  border-radius : 5px;
+  padding: 3px;
+}
+
+#status option{
+  background: none;
+  outline: none;
+  color: white;
+  width: 100%;
+  border-radius : 5px;
+  padding: 3px;
+}
 
 
 /* Alternating dark theme colors */

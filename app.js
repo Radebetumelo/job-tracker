@@ -83,37 +83,42 @@ async function getJobs() {
 
       document.querySelector('.job-list').appendChild(li);
 
-      // li.addEventListener("click", () => {
-      //   const date = new Date(selectedJob.published_at);
-      //   const options = { year: "numeric", month: "short", day: "numeric" };
-      //   const formattedDate = date.toLocaleDateString("en-US", options);
-      //   jobDetail()
-      //   const div = document.createElement("div");
-      //   div.classList = "details"
-      //   div.innerHTML = `<div><button style="background: none"><i class="bx bx-arrow-left"></i></button></div>
-      //                     <p>Comapny:  ${selectedJob.hiring_organization_name}</p>
-      //                     <p>Job Title:  ${selectedJob.title}</p>
-      //                     <p>City:  ${ selectedJob.city}</p>
-      //                     <p>Employment Type: ${selectedJob.employment_type}</p>
-      //                     <p>Workplace Type:   ${selectedJob.workplace_type}</p>
-      //                     <p>Experience Required:  ${selectedJob.experience_requirements_months ? selectedJob.experience_requirements_months : "Not Specified"}</p>
-      //                     <p>Industry:  ${selectedJob.industry ? selectedJob.industry : "Not Specified"} </p>
-      //                     <p>Date Published: ${formattedDate}</p>
-      //                     <p>Key Responsibilites: ${selectedJob.responsibilities}</p>
-      //                     <p>SKills Requirements: ${selectedJob.skills_requirements}</p>
-      //                     <p>Job Description: ${selectedJob.description}</p>
-      //   `;
-      //   const jobDetails = document.querySelector(".job-details");
+      li.addEventListener("click", () => {
+        const date = new Date(selectedJob.published_at);
+        const options = { year: "numeric", month: "short", day: "numeric" };
+        const formattedDate = date.toLocaleDateString("en-US", options);
+        jobDetail()
+        const div = document.createElement("div");
+        div.classList = "details"
+        div.innerHTML = `<div><button class="back-btn"><i class='bx bx-left-arrow-alt'></i></button></div>
+                          <p>Comapny:  ${selectedJob.hiring_organization_name}</p>
+                          <p>Job Title:  ${selectedJob.title}</p>
+                          <p>City:  ${ selectedJob.city}</p>
+                          <p>Employment Type: ${selectedJob.employment_type}</p>
+                          <p>Workplace Type:   ${selectedJob.workplace_type}</p>
+                          <p>Experience Required:  ${selectedJob.experience_requirements_months ? selectedJob.experience_requirements_months : "Not Specified"}</p>
+                          <p>Industry:  ${selectedJob.industry ? selectedJob.industry : "Not Specified"} </p>
+                          <p>Date Published: ${formattedDate}</p>
+                          <p>Key Responsibilites: ${selectedJob.responsibilities}</p>
+                          <p>SKills Requirements: ${selectedJob.skills_requirements}</p>
+                          <p>Job Description: ${selectedJob.description}</p>
+        `;
+        const jobDetails = document.querySelector(".job-details");
         
        
-      //   jobDetails.appendChild(div);
-      //})
+        jobDetails.appendChild(div);
+      })
+
+      
     });
+
 
   } catch (error) {
     console.error("Error fetching data:", error.message);
   }
 }
+
+
 
 // Save job to Firestore
 async function saveJobToFirestore(job) {
@@ -172,23 +177,33 @@ function renderJob(jobs, jobId) {
                     <div>${jobs.location}</div>
                     <div>${formattedDate}</div>
                     <div>${jobs.employment_type}</div>
-                    <div><label>Status</label>
-
-                        <select  data-id="${jobId}" id="status">
-                          <option value="hired">Hired</option>
-                          <option value="rejected">Rejected</option>
-                          <option value="intervewing">Intervewing</option>
-                          <option value="no-response">No Response</option>
-                        </select></div>
+                    <div>
+                      <select name="${jobId}" data-id="${jobId}" id="status">
+                        <option value="no-response" ${jobs.status === "no-response" ? "selected" : ""}>No Response</option>
+                        <option value="rejected" ${jobs.status === "rejected" ? "selected" : ""}>Rejected</option>
+                        <option value="intervewing" ${jobs.status === "intervewing" ? "selected" : ""}>Intervewing</option>
+                        <option value="hired" ${jobs.status === "hired" ? "selected" : ""}>Hired</option>
+                      </select></div>
                     `
     jobList.appendChild(li);
 
-    const status = li.querySelector("select");
+  const status = li.querySelector("select");
 
-    status.addEventListener("change", (e) => {
+status.addEventListener("change", async (e) => {
+  const newStatus = e.target.value;
+  const jobId = e.target.dataset.id;
+
+  try {
+    const jobRef = doc(db, "users", userId, "appliedJobs", jobId);
+    await updateDoc(jobRef, { status: newStatus });
+    console.log(`Updated job ${jobId} to status "${newStatus}"`);
     
-      console.log(e.target.value)
-    })
+  } catch (error) {
+    console.error("Failed to update job status:", error);
+  }
+  
+});
+
 
 }
 
@@ -208,7 +223,7 @@ function renderHomePage() {
         <div class="logo"><h2>J<span>T</span></h2></div>
         <div class="links">
           <a href="index.html">Home</a>
-          <a href="#">Logout</a>
+          <a href="login.html">Logout</a>
           <a href="applied-jobs.html">Applied Jobs</a>
         </div>
         <form>
@@ -250,11 +265,18 @@ function jobDetail() {
       </div>
     </div>
   `;
+
 }
 
-// Fake login (simplified)
+
+//Login 
 document.addEventListener("DOMContentLoaded", () => {
   const loginBtn = document.querySelector(".login_btn");
+
+  function isValidEmail(email) {
+    const emailRejex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailRejex.test(email);
+  }
   if (loginBtn) {
     loginBtn.addEventListener("click", () => {
       const email = document.getElementById("email").value.trim();
@@ -264,7 +286,16 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Please fill in the details");
         return;
       } else {
-        window.location.href = "index.html";
+        
+        if(!isValidEmail(email)){
+            alert("Email is invalid");
+            return;
+        } else {
+          window.location.href = "index.html";
+        }
+        
+        
+
       }
     });
   }

@@ -135,16 +135,38 @@ ul.job-list li div{
 
 ul.job-list li button {
     padding: 0.4rem;
+    width: 7rem;
     height: 30px;
+    font-size: 14px;
     cursor: pointer;
     border: none;
     outline: none;
     border-radius: 5px;
-    z-index: 0;
+    z-index: 1;
+    transition: 135ms ease-in-out;
 }
 
-.save-job:hover {
+ul.job-list li button:hover {
     background: grey;
+    color: #f1f1f1;
+}
+
+.back-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    border: none;
+    line-height: 20px;
+    background: grey;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 135ms ease-in-out;
+}
+
+.back-btn:hover{
+    color: #f1f1f1;
+    background: #2c2c2c ;
 }
 
 /* Alternating dark theme colors */
