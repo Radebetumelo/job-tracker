@@ -43,6 +43,11 @@
     justify-content: space-between;
 }
 
+nav .links p {
+    color: #f1f1f1;
+    user-select: none;
+}
+
 .container nav .links a{
     color: #E0E0E0;
     text-decoration: none;

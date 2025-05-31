@@ -31,10 +31,24 @@ let saveCount = 0;
 
 //Pagination
 let currentPage = 0;
-const jobsPerPage = 10;
+const jobsPerPage = 5;
+
+
+
 
 // Fetch and display jobs
 async function getJobs(from = 0) {
+
+   const searchInputValue = document.getElementById("searchInput");
+      const searchBtn = document.getElementById("searchBtn");
+
+      searchBtn.addEventListener("click", () => {
+        let searchValue = searchInputValue.value;
+          if (searchValue === "") 
+            return;
+          searchInputValue.value = "";
+      });
+
   try {
     const response = await fetch("https://api.apijobs.dev/v1/job/search", {
       method: "POST",
@@ -43,10 +57,10 @@ async function getJobs(from = 0) {
         "apikey": apiKey
       },
       body: JSON.stringify({
-        q: "software engineer",
+        q: searchInputValue.value || "Software Engineer" ,
         employment_type: "full-time",
         city: "San Francisco",
-        size: 10,
+        size: jobsPerPage,
         from: from
       })
     });
@@ -98,7 +112,7 @@ async function getJobs(from = 0) {
         jobDetail()
         const div = document.createElement("div");
         div.classList = "details"
-        div.innerHTML = `<div><button class="back-btn"><i class='bx bx-left-arrow-alt'></i></button></div>
+        div.innerHTML = `<div><button class="back-btn" id="backBtn"><i class='bx bx-left-arrow-alt'></i></button></div>
                           <p>Comapny:  ${selectedJob.hiring_organization_name}</p>
                           <p>Job Title:  ${selectedJob.title}</p>
                           <p>City:  ${ selectedJob.city}</p>
@@ -116,6 +130,9 @@ async function getJobs(from = 0) {
        
         jobDetails.appendChild(div);
       })
+
+          
+     
 
       document.getElementById("nextBtn").addEventListener("click", () => {
         currentPage++;
@@ -242,13 +259,13 @@ function renderHomePage() {
       <nav>
         <div class="logo"><h2>J<span>T</span></h2></div>
         <div class="links">
-          <a href="index.html">Home</a>
+          <p>Filter</p>
           <a href="login.html">Logout</a>
           <a href="applied-jobs.html">Applied Jobs</a>
         </div>
         <form>
-          <input type="text" class="search_input" placeholder="Search Job">
-          <button><i class="bx bx-search"></i></button>
+          <input type="text" class="search_input" id="searchInput" placeholder="Search Job Title">
+          <button id="searchBtn"><i class="bx bx-search"></i></button>
         </form>
       </nav>
       <div class="headers">
@@ -280,8 +297,8 @@ function jobDetail() {
           <a href="applied-jobs.html">Applied Jobs</a>
         </div>
         <form>
-          <input type="text" class="search_input" placeholder="Search Job">
-          <button><i class="bx bx-search"></i></button>
+          <input type="text" class="search_input" id="searchInput" placeholder="Search Job">
+          <button id="searchBtn"><i class="bx bx-search"></i></button>
         </form>
       </nav>
       <div class="job-details">
