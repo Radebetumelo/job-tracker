@@ -259,7 +259,14 @@ function renderHomePage() {
       <nav>
         <div class="logo"><h2>J<span>T</span></h2></div>
         <div class="links">
-          <p>Filter</p>
+         <div class="dropdown">
+  <button class="dropbtn">filter</button>
+  <div class="dropdown-content">
+    <a href="#">Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+  </div>
+</div>
           <a href="login.html">Logout</a>
           <a href="applied-jobs.html">Applied Jobs</a>
         </div>
