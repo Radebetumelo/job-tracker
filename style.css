@@ -19,7 +19,7 @@
     min-height: 100vh;
 }
 .container nav {
-    position: relatve;
+    position: relative;
     width: 100%;
     height: 70px;
     display: flex;
@@ -149,6 +149,7 @@ ul.job-list li button {
 ul.job-list li button:hover {
     background: grey;
     color: #f1f1f1;
+    scale: 105%;
 }
 
 .back-btn {
@@ -167,6 +168,7 @@ ul.job-list li button:hover {
 .back-btn:hover{
     color: #f1f1f1;
     background: #2c2c2c ;
+    scale: 105%;
 }
 
 /* Alternating dark theme colors */
@@ -185,6 +187,30 @@ ul.job-list li:hover {
   background-color: #3a3a3a;
   cursor: pointer;
   transition: background 0.3s ease;
+}
+
+
+.prev-next {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.previous-btn, .next-btn {
+    width: 50px;
+    height: 30px;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    margin: 2.5px;
+    transition: 135ms ease-in-out;
+}
+
+.previous-btn:hover, .next-btn:hover {
+    background-color: grey;
+    color: #f1f1f1;
+    scale: 105%;
 }
 
 /* Responsive typography and padding */

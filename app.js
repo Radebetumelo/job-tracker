@@ -29,8 +29,12 @@ let jobList = [];
 // Count number of jobs saved
 let saveCount = 0;
 
+//Pagination
+let currentPage = 0;
+const jobsPerPage = 10;
+
 // Fetch and display jobs
-async function getJobs() {
+async function getJobs(from = 0) {
   try {
     const response = await fetch("https://api.apijobs.dev/v1/job/search", {
       method: "POST",
@@ -42,7 +46,8 @@ async function getJobs() {
         q: "software engineer",
         employment_type: "full-time",
         city: "San Francisco",
-        size: 10
+        size: 10,
+        from: from
       })
     });
 
@@ -51,6 +56,9 @@ async function getJobs() {
     }
 
     const data = await response.json();
+
+    document.querySelector(".job-list").innerHTML = "";
+
     jobList = data.hits;
 
     jobList.forEach((job, index) => {
@@ -73,8 +81,8 @@ async function getJobs() {
 
       const selectedJob = jobList[index];
 
-      li.querySelector(".save-btn").addEventListener("click", () => {
-        
+      li.querySelector(".save-btn").addEventListener("click", (e) => {
+        e.stopPropagation();
         saveJobToFirestore(selectedJob);
         
         console.log("Saved job:", selectedJob);
@@ -109,6 +117,17 @@ async function getJobs() {
         jobDetails.appendChild(div);
       })
 
+      document.getElementById("nextBtn").addEventListener("click", () => {
+        currentPage++;
+        getJobs(currentPage * jobsPerPage);
+      });
+
+      document.getElementById("prevBtn").addEventListener("click", () => {
+        if (currentPage > 0) {
+          currentPage--;
+          getJobs(currentPage * jobsPerPage)
+        }
+      });
       
     });
 
@@ -117,6 +136,7 @@ async function getJobs() {
     console.error("Error fetching data:", error.message);
   }
 }
+
 
 
 
@@ -240,6 +260,10 @@ function renderHomePage() {
         <div></div>
       </div>
       <ul class="job-list"></ul>
+      <div class="prev-next">
+        <button class="previous-btn" id="prevBtn">Prev</button>
+        <button class="next-btn" id="nextBtn">Next</button>
+      </div>
     </div>
   `;
 }
