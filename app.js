@@ -1,6 +1,8 @@
 // Firebase Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
 import { getFirestore, doc, getDocs, collection, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+
 
 // Firebase Config
 const firebaseConfig = {
@@ -18,7 +20,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 
 // Simulated User ID
-const userId = "user123";
+const userId = localStorage.getItem("uid");
 
 // API Key
 const apiKey = "f8cace435f9bd1cd80392a51c37c200dbc0d55381f3cabae225df51a8ed4c18a";
@@ -31,7 +33,7 @@ let saveCount = 0;
 
 //Pagination
 let currentPage = 0;
-const jobsPerPage = 5;
+const jobsPerPage = 10;
 
 
 
@@ -57,9 +59,9 @@ async function getJobs(from = 0) {
         "apikey": apiKey
       },
       body: JSON.stringify({
-        q: searchInputValue.value || "Software Engineer" ,
-        employment_type: "full-time",
-        city: "San Francisco",
+        q: searchInputValue.value || "Software Engineer",
+        employment_type: "full-time,contract",
+        country: "Canada,France",
         size: jobsPerPage,
         from: from
       })
@@ -159,9 +161,14 @@ async function getJobs(from = 0) {
 
 // Save job to Firestore
 async function saveJobToFirestore(job) {
+  
   const jobId = `job${saveCount}`;
   saveCount++;
 
+  if (!userId) {
+    alert("User is not signed in.")
+    return;
+  }
   const jobRef = doc(db, "users", userId, "appliedJobs", jobId);
 
   const jobData = {
@@ -186,9 +193,14 @@ async function saveJobToFirestore(job) {
 
 
 //Get Documents form Firestore
-const appliedJobsRef = collection(db, "users", userId, "appliedJobs");
+
+
 
 async function fetchAppliedJobs() {
+
+  
+  const appliedJobsRef = collection(db, "users", userId, "appliedJobs");
+
   
   const snapshot = await getDocs(appliedJobsRef);
   snapshot.forEach((docSnap) => {
@@ -221,7 +233,7 @@ function renderJob(jobs, jobId) {
                         <option value="intervewing" ${jobs.status === "intervewing" ? "selected" : ""}>Intervewing</option>
                         <option value="hired" ${jobs.status === "hired" ? "selected" : ""}>Hired</option>
                       </select></div>
-                    `
+                    `;
     jobList.appendChild(li);
 
   const status = li.querySelector("select");
@@ -318,7 +330,11 @@ function jobDetail() {
 
 
 //Login 
+
+const auth = getAuth();
+
 document.addEventListener("DOMContentLoaded", () => {
+ 
   const loginBtn = document.querySelector(".login_btn");
 
   function isValidEmail(email) {
@@ -326,25 +342,39 @@ document.addEventListener("DOMContentLoaded", () => {
     return emailRejex.test(email);
   }
   if (loginBtn) {
-    loginBtn.addEventListener("click", () => {
+    loginBtn.addEventListener("click", async () => {
+   
       const email = document.getElementById("email").value.trim();
       const password = document.getElementById("password").value.trim();
 
       if (email === "" || password === "") {
         alert("Please fill in the details");
         return;
-      } else {
+      } 
         
-        if(!isValidEmail(email)){
+      if(!isValidEmail(email)){
             alert("Email is invalid");
             return;
-        } else {
-          window.location.href = "index.html";
-        }
+        } 
+          
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        console.log("Logged in:", user.uid);
+
+        //store user ID to use later
+        localStorage.setItem("uid", user.uid);
+        window.location.href = "index.html";
+      } catch (error) {
+        console.error("Login error:", error.message);
+        alert("Login Failed:", error.message);
+      }
+        
         
         
 
-      }
+      
     });
   }
 });

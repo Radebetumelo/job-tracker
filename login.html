@@ -10,19 +10,38 @@
 </head>
 <body>
     <div class="login-page-container">
-        
-       <div class="login_container">
-                
-                <div class="inputs_div">
-                
-                <input type="email" name="email" placeholder="Email" id="email"  required>
-                
-                <input type="password" placeholder="Password" id="password" required>
+           <form class="form-container"> <h1 class="login-title">Login</h1>
+
+            <section class="input-box">
+                <input type="text" name="email" placeholder="Email" id="email">
+                <i class="bx bxs-message"></i>
+            </section>
+            <section class="input-box">
+                <input type="password" name="password" placeholder="Password" id="password">
+                <i class="bx bxs-lock-alt"></i>
+            </section>
+
+            <section class="remember-forgot-box">
+                <div class="remember-me">
+                    <input type="checkbox" name="remember-me" id="remember-me">
+                    <label for="remember-me">
+                        <h5>Remember Me</h5>
+                    </label>
                 </div>
-                <a href="#" class="forgot_pass">Forgot Password</a>
-                <button class="login_btn" id="login-btn">Login</button>
-                <p class="sign_up">Don't have an account? <span><a href="#">Sign Up</a></span></p>
-            </div>
+                <a href="#" class="forgort-password">
+                    <h5>Forgot Password</h5>
+                </a>
+            </section>
+
+            <button class="login-button login_btn" type="button" id="login_btn">
+                Login
+            </button>
+
+            <h5 class="dont-have-an-account">
+                Don't have an account?
+                <a href="#"><b>Register</b></a>
+            </h5>
+            </form>
     </div>    
     <script type="module" src="app.js"></script>
 </body>
