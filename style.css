@@ -56,7 +56,9 @@ nav .links button {
     font-size: 16px;
     cursor: pointer;
 }
-
+#signup-form {
+    display: none;
+}
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
@@ -254,6 +256,7 @@ ul.job-list li:hover {
 .previous-btn, .next-btn {
     width: 50px;
     height: 30px;
+    background: #32CDD5;
     outline: none;
     border: none;
     cursor: pointer;
@@ -263,7 +266,7 @@ ul.job-list li:hover {
 }
 
 .previous-btn:hover, .next-btn:hover {
-    background-color: grey;
+    background-color: #32CDD58A;
     color: #f1f1f1;
     scale: 105%;
 }

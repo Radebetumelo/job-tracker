@@ -1,7 +1,7 @@
 // Firebase Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
 import { getFirestore, doc, getDocs, collection, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 
 
 // Firebase Config
@@ -17,7 +17,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore();
+const db = getFirestore(app);
 
 // Simulated User ID
 const userId = localStorage.getItem("uid");
@@ -271,14 +271,8 @@ function renderHomePage() {
       <nav>
         <div class="logo"><h2>J<span>T</span></h2></div>
         <div class="links">
-         <div class="dropdown">
-  <button class="dropbtn">filter</button>
-  <div class="dropdown-content">
-    <a href="#">Link 1</a>
-    <a href="#">Link 2</a>
-    <a href="#">Link 3</a>
-  </div>
-</div>
+         
+          <a href="#"></a>
           <a href="login.html">Logout</a>
           <a href="applied-jobs.html">Applied Jobs</a>
         </div>
@@ -329,9 +323,50 @@ function jobDetail() {
 }
 
 
-//Login 
+//Login
 
-const auth = getAuth();
+
+// window.addEventListener('DOMContentLoaded', () => {
+//   const savedEmail = localStorage.getItem('userEmail');
+//   if (savedEmail) {
+//     document.getElementById('email').value = savedEmail;
+//     document.getElementById('rememberMe').checked = true;
+//   }
+// });
+
+// const rememberMe = document.getElementById('remember-me').checked;
+
+// if (rememberMe) {
+//   localStorage.setItem('userEmail', email);
+// } else {
+//   localStorage.removeItem('userEmail');
+// }
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleButtons = document.querySelectorAll(".toggle-form");
+  const loginForm = document.getElementById("login-form");
+  const signupForm = document.getElementById("signup-form");
+
+  toggleButtons.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const loginVisible = loginForm.style.display !== "none";
+
+      if (loginVisible) {
+        loginForm.style.display = "none";
+        signupForm.style.display = "block";
+      } else {
+        loginForm.style.display = "block";
+        signupForm.style.display = "none";
+      }
+    });
+  });
+});
+
+const auth = getAuth(app);
 
 document.addEventListener("DOMContentLoaded", () => {
  
@@ -344,8 +379,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (loginBtn) {
     loginBtn.addEventListener("click", async () => {
    
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
+      const email = document.getElementById("login-email").value.trim();
+      const password = document.getElementById("login-password").value.trim();
 
       if (email === "" || password === "") {
         alert("Please fill in the details");
@@ -371,12 +406,44 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Login Failed:", error.message);
       }
         
-        
+      
         
 
       
     });
   }
+});
+
+
+// Sign Up Method
+
+document.addEventListener("DOMContentLoaded", () => {
+  const signupBtn = document.getElementById("signup_btn");
+
+  signupBtn.addEventListener("click", async () => {
+    const email = document.getElementById("signup-email").value.trim();
+    const password = document.getElementById("signup-password").value.trim();
+
+    if (email === "" || password === "") {
+      alert("Please enter both email and password.");
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      alert("Account created successfully!");
+      console.log("User:", user);
+
+      // Redirect or switch to login form
+      document.getElementById("signup-form").style.display = "none";
+      document.getElementById("login-form").style.display = "block";
+    } catch (error) {
+      console.error("Signup error:", error.message);
+      alert("Signup failed: " + error.message);
+    }
+  });
 });
 
 // Start app

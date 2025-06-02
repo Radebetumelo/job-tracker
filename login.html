@@ -10,39 +10,69 @@
 </head>
 <body>
     <div class="login-page-container">
-           <form class="form-container"> <h1 class="login-title">Login</h1>
+  <!-- Login Form -->
+  <div id="login-form">
+    <form class="form-container">
+      <h1 class="login-title">Login</h1>
 
-            <section class="input-box">
-                <input type="text" name="email" placeholder="Email" id="email">
-                <i class="bx bxs-message"></i>
-            </section>
-            <section class="input-box">
-                <input type="password" name="password" placeholder="Password" id="password">
-                <i class="bx bxs-lock-alt"></i>
-            </section>
+      <section class="input-box">
+        <input type="text" name="email" placeholder="Email" id="login-email">
+        <i class="bx bxs-message"></i>
+      </section>
+      <section class="input-box">
+        <input type="password" name="password" placeholder="Password" id="login-password">
+        <i class="bx bxs-lock-alt"></i>
+      </section>
 
-            <section class="remember-forgot-box">
-                <div class="remember-me">
-                    <input type="checkbox" name="remember-me" id="remember-me">
-                    <label for="remember-me">
-                        <h5>Remember Me</h5>
-                    </label>
-                </div>
-                <a href="#" class="forgort-password">
-                    <h5>Forgot Password</h5>
-                </a>
-            </section>
+      <section class="remember-forgot-box">
+        <div class="remember-me">
+          <input type="checkbox" name="remember-me" id="remember-me">
+          <label for="remember-me">
+            <h5>Remember Me</h5>
+          </label>
+        </div>
+        <a href="#" class="forgot-password">
+          <h5>Forgot Password</h5>
+        </a>
+      </section>
 
-            <button class="login-button login_btn" type="button" id="login_btn">
-                Login
-            </button>
+      <button class="login-button login_btn" type="button" id="login_btn">
+        Login
+      </button>
 
-            <h5 class="dont-have-an-account">
-                Don't have an account?
-                <a href="#"><b>Register</b></a>
-            </h5>
-            </form>
-    </div>    
+      <button type="button" class="dont-have-an-account">
+        Don't have an account?
+        <span class="toggle-form">Sign up</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- Signup Form -->
+  <div id="signup-form" style="display: none;">
+    <form class="form-container">
+      <h1 class="signup-title">Sign Up</h1>
+
+      <section class="input-box">
+        <input type="text" name="email" placeholder="Email" id="signup-email">
+        <i class="bx bxs-message"></i>
+      </section>
+      <section class="input-box">
+        <input type="password" name="password" placeholder="Password" id="signup-password">
+        <i class="bx bxs-lock-alt"></i>
+      </section>
+
+      <button class="login-button signup_btn" type="button" id="signup_btn">
+        Sign Up
+      </button>
+
+      <button type="button" class="dont-have-an-account">
+        Already have an account?
+        <span class="toggle-form">Sign in</span>
+      </button>
+    </form>
+  </div>
+</div>
+    
     <script type="module" src="app.js"></script>
 </body>
 </html>
