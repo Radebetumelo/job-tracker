@@ -404,6 +404,15 @@ ul.job-list li:hover {
 .dont-have-an-account {
     font-weight: normal;
     margin-top: 12px;
+    background: none;
+    outline: none;
+    border: none;
+    color:#E0E0E0;
+    margin-top: 20px;
+}
+
+.dont-have-an-account span {
+    color:#32CDD5;
 }
 
 

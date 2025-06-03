@@ -326,21 +326,15 @@ function jobDetail() {
 //Login
 
 
-// window.addEventListener('DOMContentLoaded', () => {
-//   const savedEmail = localStorage.getItem('userEmail');
-//   if (savedEmail) {
-//     document.getElementById('email').value = savedEmail;
-//     document.getElementById('rememberMe').checked = true;
-//   }
-// });
+window.addEventListener('DOMContentLoaded', () => {
+  const savedEmail = localStorage.getItem('userEmail');
+  if (savedEmail) {
+    document.getElementById('email').value = savedEmail;
+    document.getElementById('rememberMe').checked = true;
+  }
+});
 
-// const rememberMe = document.getElementById('remember-me').checked;
 
-// if (rememberMe) {
-//   localStorage.setItem('userEmail', email);
-// } else {
-//   localStorage.removeItem('userEmail');
-// }
 
 
 
@@ -406,7 +400,13 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Login Failed:", error.message);
       }
         
-      
+      const rememberMe = document.getElementById('remember-me').checked;
+
+if (rememberMe) {
+  localStorage.setItem('userEmail', email);
+} else {
+  localStorage.removeItem('userEmail');
+}
         
 
       
