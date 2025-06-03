@@ -273,7 +273,7 @@ function renderHomePage() {
         <div class="links">
          
           <a href="#"></a>
-          <a href="login.html">Logout</a>
+          <a href="index.html">Logout</a>
           <a href="applied-jobs.html">Applied Jobs</a>
         </div>
         <form>
@@ -305,8 +305,8 @@ function jobDetail() {
       <nav>
         <div class="logo"><h2>J<span>T</span></h2></div>
         <div class="links">
-          <a href="#">Home</a>
-          <a href="#">Logout</a>
+          <a href="home-page.html">Home</a>
+          <a href="index.html">Logout</a>
           <a href="applied-jobs.html">Applied Jobs</a>
         </div>
         <form>
@@ -394,7 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         //store user ID to use later
         localStorage.setItem("uid", user.uid);
-        window.location.href = "index.html";
+        window.location.href = "home-page.html";
       } catch (error) {
         console.error("Login error:", error.message);
         alert("Login Failed:", error.message);
