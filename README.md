@@ -162,7 +162,7 @@ job-tracker/
 After deployment, Firebase CLI will output a hosting URL like:
 
 ```
-https://your-project-id.web.app
+https://job-tracker-bd25a.web.app
 ```
 
 Use this link to view your live app.
