@@ -15,6 +15,7 @@ const firebaseConfig = {
   measurementId: "G-SHJR6ZWZBG"
 }; 
 
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -270,8 +271,8 @@ function renderHomePage() {
     <div class="home_page">
       <nav>
         <div class="logo"><h2>J<span>T</span></h2></div>
+        <div class="menu"><i class="bx bx-menu" id="navMenu"></i></div>
         <div class="links">
-         
           <a href="#"></a>
           <a href="index.html">Logout</a>
           <a href="applied-jobs.html">Applied Jobs</a>
@@ -296,6 +297,9 @@ function renderHomePage() {
       </div>
     </div>
   `;
+
+
+
 }
 
 // Render Applied Jobs Page (optional usage)
@@ -321,6 +325,8 @@ function jobDetail() {
   `;
 
 }
+
+
 
 
 //Login
@@ -363,6 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const auth = getAuth(app);
 
 document.addEventListener("DOMContentLoaded", () => {
+
  
   const loginBtn = document.querySelector(".login_btn");
 
@@ -444,8 +451,22 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Signup failed: " + error.message);
     }
   });
+
+  
 });
+
+
 
 // Start app
 renderHomePage();
 getJobs();
+
+const navMenu = document.getElementById("navMenu");
+      navMenu.addEventListener("click",() => {
+        document.querySelector(".links").classList.toggle("show")
+});
+
+const menu = document.getElementById("Menu");
+      menu.addEventListener("click",() => {
+        document.querySelector(".links").classList.toggle("show")
+});
